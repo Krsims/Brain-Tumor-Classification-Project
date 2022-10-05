@@ -2,22 +2,17 @@ import tensorflow as tf
 from tensorflow import keras
 from keras.models import load_model
 from keras.models import Sequential
-from keras.layers import Dense,Conv2D,GlobalAveragePooling2D,SpatialDropout2D
-from keras.optimizers import Adam
+from keras.layers import Dense,Conv2D
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import sklearn
-from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 import cv2
 import os
 import tqdm
-from tqdm import tqdm
-import pickle
 
 labels = ['glioma_tumor', 'no_tumor', 'meningioma_tumor', 'pituitary_tumor']
 
@@ -68,7 +63,6 @@ for i in y_train:
 y_train = new_y_train
 y_train = tf.keras.utils.to_categorical(y_train)
 
-
 new_y_test = []
 for i in y_test:
     new_y_test.append(labels.index(i))
@@ -98,9 +92,3 @@ prediction = np.argmax(prediction, axis = 1)
 new_y_test = np.argmax(y_test, axis = 1)
 
 print(classification_report(new_y_test, prediction))
-
-modelsave = 'model1.sav'
-loaded_model = pickle.load(open(modelsave, 'rb'))
-
-result = loaded_model.predict(x_test)
-print(result)
